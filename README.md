@@ -16,9 +16,20 @@ Where:
 * parent_id: is the id of the parent of this event when events with same root_id have a tree structure
 
 Assumption:
-* event_id == root_id for the root event; in this case, parent_id is meaningless
+* event_id == root_id for the **root event**; in this case, parent_id is meaningless
 * all events with same root_id can not happen before the root event itself (where event_id == root_id)
 * if "parent_id" are used, the parent event can not h
+
+## Temporal K_{2,h} motifs
+
+Such motifs are parametrized by 3 values:
+* dt: the reaction time, in seconds
+* dT: the repetition time, in seconds
+* h: the number of distinct root events
+
+A temporal K_{2,h} motifs gived (dt, dT) occurs when:
+* a user U submits a root event and a different user V sumbits an event under that root event (i.e. same root_id) within dt seconds (reaction time)
+* the above scenario happens h times, for h distinct root events, withith dT seconds (repetition time)
 
 ## Finding K_{2,h} motifs
 
@@ -27,10 +38,10 @@ The function **K2h** is called to find temporal motifs. When called first, a Dat
 ### Parameters:
 
 * df: pandas DataFrame with the required columns:
- * **event_id**: unique id for each event
- * **author_id**: a.k.a. userid
- * **time**: in seconds, typically UTC
- * **root_id**: id of the root event that this event_id is part of
+  * **event_id**: unique id for each event
+  * **author_id**: a.k.a. userid
+  * **time**: in seconds, typically UTC
+  * **root_id**: id of the root event that this event_id is part of
 * extras: list of extra columns to extract from 'df' and keep as attributes
 * dt: reaction time for the motifs, in seconds
 * dT: repetition time for the motifs, in seconds

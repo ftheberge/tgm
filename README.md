@@ -4,8 +4,8 @@ Python code to look for temporal motifs, namely temporal K_{2,h} motifs, in a gr
 
 We assume that events are grouped under some **root event** which happens first. Some examples are:
 
-* re-tweets given some original tweet (the root event)
-* comments following a Reddit submissiion (the root event)
+* re-tweets given some original tweet
+* comments following a Reddit submissiion
 
 ## Data Format
 
@@ -34,7 +34,7 @@ Such motifs are parametrized by 3 values:
 
 A temporal K_{2,h} motifs given (dt, dT) occurs when:
 * an actor A submits a root event and a different actor B sumbits an event under that root event (i.e. same root_id) within dt seconds (**reaction** time)
-* the above scenario happens h times, for h distinct root events, withith dT seconds (**repetition** time)
+* the above scenario happens h times, for h distinct root events, all within dT seconds (**repetition** time)
 
 ## Finding K_{2,h} motifs
 
@@ -52,7 +52,7 @@ The function **K2h** is called to find temporal motifs. When called first, a Dat
 * dT: repetition time for the motifs, in seconds
 * h: the 'h' in K2h; the number of different root_id's in the motifs (>=2)
 * bg: bipartite graph obtained from a previous call of the 'K2h' function with the same dataframe 'df'; if supplied, 'df' is not required; this will speed-up the computation
-* verbose: if set, return tuples of root_id's for each motif (default=False)
+* verbose: if set, return the tuples of root_id's for each K_{2,h} motif found (default=False)
 * return_df: if set, also output the results as a pandas DataFrame (default=False)
 * return_bg: if set, output the bipartite graph that can be re-used for faster subsequent runs of 'K2h' (default=True)
 

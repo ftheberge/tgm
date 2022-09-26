@@ -44,7 +44,7 @@ The function **K2h** is called to find temporal motifs. When called first, a Dat
 
 * df: pandas DataFrame with the required columns:
   * **event_id**: unique id for each event
-  * **author_id**: actor/user id
+  * **actor_id**: actor/user id
   * **time**: in seconds, typically UTC
   * **root_id**: id of the root event that this event_id is part of
 * extras: list of extra columns to extract from 'df' and keep as attributes

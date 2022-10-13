@@ -2,10 +2,7 @@
 
 Python code to look for temporal motifs, namely temporal K_{2,h} motifs, in a graph or network of **events**.
 
-We assume that events are grouped under some **root event** which happens first. Some examples are:
-
-* re-tweets given some original tweet
-* comments following a Reddit submissiion
+We assume that events are time indexed and grouped under some **root event** which happens first, either directly or via a tree structure. Most styles of threaded conversation (e.g. tweets and retweets, reddit comments, email) can be described in this format.
 
 ## Data Format
 

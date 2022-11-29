@@ -2,7 +2,7 @@
 
 Python code to look for temporal motifs, namely temporal K_{2,h} motifs, in a graph or network of **events**.
 
-We assume that events are time indexed and grouped under some **root event** which happens first, either directly or via a tree structure. Most styles of threaded conversation (e.g. tweets and retweets, reddit comments, email) can be described in this format.
+We assume that events are time indexed and grouped under some **root event** which happens first via a tree structure. Most styles of threaded conversation (e.g. tweets and retweets, reddit comments, email chains) can be described in this format.
 
 ## Data Format
 
@@ -29,9 +29,21 @@ Such motifs are parametrized by 3 values:
 * dT: the repetition time, in seconds
 * h: the number of distinct root events forming the motif
 
+We distinguish 2 families of motifs:
+
+### (1) root-based motifs 
+
 A temporal K_{2,h} motifs given (dt, dT) occurs when:
-* an actor A submits a root event and a different actor B sumbits an event under that root event (i.e. same root_id) within dt seconds (**reaction** time)
-* the above scenario happens h times, for h distinct root events, all within dT seconds (**repetition** time)
+* an actor A submits a **root event** and a different actor B sumbits an event under that root event (i.e. same root_id) within **dt** seconds (**reaction** time)
+* the above scenario happens **h** times, for h distinct root events, all within **dT** seconds (**repetition** time)
+
+### (2) hop-based motifs
+
+A temporal K_{2,h} motifs given (dt, dT) occurs when:
+* an actor A submits an event under a root_event (the event needs not be the root event but it can be) with some **event_id**, and a different actor B sumbits another event such that its **parent_id == event_id**, within **dt** seconds (**reaction** time)
+* the above scenario happens **h** times, in h distinct root events, all within **dT** seconds (**repetition** time)
+
+
 
 ## Finding K_{2,h} motifs
 
@@ -39,12 +51,13 @@ The function **K2h** is called to find temporal motifs. When called first, a Dat
 
 ### Parameters:
 
+* mode: 'root' for root-based motifs, or 'hop' for hop-based motifs  
 * df: pandas DataFrame with the required columns:
   * **event_id**: unique id for each event
   * **actor_id**: actor/user id
   * **time**: in seconds, typically UTC
   * **root_id**: id of the root event that this event_id is part of
-* extras: list of extra columns to extract from 'df' and keep as attributes
+  * **parent_id**: id of the parent event, only required if mode == 'hop'
 * dt: reaction time for the motifs, in seconds
 * dT: repetition time for the motifs, in seconds
 * h: the 'h' in K2h; the number of different root_id's in the motifs (>=2)

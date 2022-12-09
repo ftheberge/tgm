@@ -85,7 +85,7 @@ def K2h_root(df=None, dt=0, dT=0, h=2, bg=None, verbose=False, return_df=False, 
     ## build all edges from event to root event given dt
     min_time = min(bg.es['time'])
     for v in bg.vs:
-        if v['in']>1: ## for each root event tree
+        if v['in']>1: ## for each root event tree with 2+ events
             inc = v.incident(mode='in') ## all actors with an event under this root event
             t = [e['time'] for e in inc if e['is_root']] ## time of root event
             if len(t)>0: ## only consider events with a root
@@ -171,8 +171,10 @@ def K2h_hop(df=None, dt=0, dT=0, h=2, bg=None, verbose=False, return_df=False, r
         dct_actor = dict(zip(df.event_id,df.actor_id))
         dct_time = dict(zip(df.event_id,df.time))
         ## (b) drop events w/ parent unknown
+        df.loc[(df.event_id == df.root_id), 'parent_id'] = df.event_id ## in case those are not set
         df['keep'] = [x in dct_actor for x in df.parent_id]
         df = df.drop(df[df.keep == False].index)
+        df.drop('keep', axis=1, inplace=True)
         ## (c) store parent_actor_id's
         df['parent_actor_id'] = [dct_actor[x] for x in df['parent_id']]
         ## (d) drop rows where actor == parent_actor
@@ -254,12 +256,12 @@ def K2h_hop(df=None, dt=0, dT=0, h=2, bg=None, verbose=False, return_df=False, r
             for e in G.es:
                 L.append([G.vs[e.tuple[0]]['cc'],G.vs[e.tuple[0]]['name'],
                           G.vs[e.tuple[1]]['name'],e['weight'],e['events']])
-            D = pd.DataFrame(L, columns=['component','root','actor','count','list'])
+            D = pd.DataFrame(L, columns=['component','parent','actor','count','list'])
         else:
             for e in G.es:
                 L.append([G.vs[e.tuple[0]]['cc'],G.vs[e.tuple[0]]['name'],
                           G.vs[e.tuple[1]]['name'],e['weight']])
-            D = pd.DataFrame(L, columns=['component','root','actor','count'])        
+            D = pd.DataFrame(L, columns=['component','parent','actor','count'])        
         D.sort_values(by='component', inplace=True)
         D.reset_index(inplace=True, drop=True)
     else:

@@ -150,12 +150,12 @@ def K2h_root(df=None, dt=0, dT=0, h=2, bg=None, verbose=False, return_df=False, 
             for e in G.es:
                 L.append([G.vs[e.tuple[0]]['cc'],G.vs[e.tuple[0]]['name'],
                           G.vs[e.tuple[1]]['name'],e['weight'],e['events']])
-            D = pd.DataFrame(L, columns=['component','root','actor','count','list'])
+            D = pd.DataFrame(L, columns=['component','actor','root','count','list'])
         else:
             for e in G.es:
                 L.append([G.vs[e.tuple[0]]['cc'],G.vs[e.tuple[0]]['name'],
                           G.vs[e.tuple[1]]['name'],e['weight']])
-            D = pd.DataFrame(L, columns=['component','root','actor','count'])        
+            D = pd.DataFrame(L, columns=['component','actor','root','count'])        
         D.sort_values(by='component', inplace=True)
         D.reset_index(inplace=True, drop=True)
     else:
@@ -256,12 +256,12 @@ def K2h_hop(df=None, dt=0, dT=0, h=2, bg=None, verbose=False, return_df=False, r
             for e in G.es:
                 L.append([G.vs[e.tuple[0]]['cc'],G.vs[e.tuple[0]]['name'],
                           G.vs[e.tuple[1]]['name'],e['weight'],e['events']])
-            D = pd.DataFrame(L, columns=['component','parent','actor','count','list'])
+            D = pd.DataFrame(L, columns=['component','actor','parent','count','list'])
         else:
             for e in G.es:
                 L.append([G.vs[e.tuple[0]]['cc'],G.vs[e.tuple[0]]['name'],
                           G.vs[e.tuple[1]]['name'],e['weight']])
-            D = pd.DataFrame(L, columns=['component','parent','actor','count'])        
+            D = pd.DataFrame(L, columns=['component','actor','parent','count'])        
         D.sort_values(by='component', inplace=True)
         D.reset_index(inplace=True, drop=True)
     else:

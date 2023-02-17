@@ -2,6 +2,8 @@
 
 Python code to look for temporal motifs, namely temporal K_{2,h} motifs, in a graph or network of **events**.
 
+To install: **pip install tgm**
+
 We assume that events are time indexed and grouped under some **root event** which happens first via a tree structure. Most styles of threaded conversation (e.g. tweets and retweets, reddit comments, email chains) can be described in this format.
 
 ## Data Format
